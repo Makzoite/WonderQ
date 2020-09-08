@@ -1,7 +1,7 @@
 const dbMessages = require('../models/message');
 
 let id = 0; //for value increment to make unique message and producer ID.
-
+let timeOut = null; //for reseting timeOut on polling again
 //POST : Create message and push in array buffer
 //req contains parameters for the input
 exports.messages_createMessage = (req, res, next) => {
