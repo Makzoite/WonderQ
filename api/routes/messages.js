@@ -14,4 +14,7 @@ router.get('/messages/poll', messagesController.messages_getMessages);
 //get all the polled messages
 router.get('/messages', messagesController.messages_loadMessages);
 
+//delete the message
+router.delete('/message/:id', messagesController.messages_deleteMessage);
+
 module.exports = router;

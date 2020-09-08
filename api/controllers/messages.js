@@ -105,3 +105,35 @@ exports.messages_loadMessages = (req, res, next) => {
         timeout: process.env.DISPLAY_TIMEOUT
     });
 };
+
+//DELETE: Delete the selected messageId and check the uuid for display timeout.
+//If no uuid present then do not delete as polling messages is expired and could be polled by other consumer
+exports.messages_deleteMessage = (req, res, next) => {
+    const messageID = req.params.id;
+    const status = deleteMessage(messageID, req.cookies.uuid);
+    let message = "";
+    if (status)
+        message = "Deletion successful";
+    else
+        message = "The selected message could not be deleted.";
+    res.status(200).json({
+        message: message,
+        success: status,
+        messageID: messageID
+    });
+};
+
+//Deletes message from the array
+// Params: messageId: received from the user input
+//         uuid: extracted from the saved cookie
+function deleteMessage(messageId, uuid) {
+    let success = false;
+    dbMessages.forEach((message, index) => {
+        console.log(message.messageID);
+        if (message.messageID === messageId && message.uuid === uuid) {//delete message only if uuid is available
+            dbMessages.splice(index, 1);
+            success = true;
+        }
+    });
+    return success;
+};
