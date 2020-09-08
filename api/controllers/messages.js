@@ -89,3 +89,19 @@ exports.messages_getMessages = (req, res, next) => {
         timeout: process.env.DISPLAY_TIMEOUT
     });
 };
+
+//GET: Handle the polled messages display on reload
+exports.messages_loadMessages = (req, res, next) => {
+    const messages = dbMessages;
+    const polledMessages = []; //temp array for polled messages
+    messages.forEach(message => {
+        if (message.uuid == req.cookies.uuid) {
+            polledMessages.push(message);
+        }
+    });
+    res.status(200).json({
+        message: 'Reloaded polled messages',
+        data: polledMessages,
+        timeout: process.env.DISPLAY_TIMEOUT
+    });
+};

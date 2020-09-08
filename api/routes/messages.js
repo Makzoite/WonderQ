@@ -11,4 +11,7 @@ router.get('/messages/available', messagesController.messages_availableMessages)
 //poll all the available messages
 router.get('/messages/poll', messagesController.messages_getMessages);
 
+//get all the polled messages
+router.get('/messages', messagesController.messages_loadMessages);
+
 module.exports = router;
