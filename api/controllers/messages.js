@@ -18,7 +18,7 @@ exports.messages_createMessage = (req, res, next) => {
             messageID: messageId,
             message: req.body.message,
             producerID: producerId,
-            status: 0,
+            status: 0, //status 0 is for available to poll and 1 for not available
             uuid: ""
         }
         dbMessages.push(message);
@@ -38,6 +38,21 @@ exports.messages_createMessage = (req, res, next) => {
         message: status,
         data: message,
         success: success
+    });
+};
+
+//GET: Fetch all availble messages which are not polled by any other consumers.
+exports.messages_availableMessages = (req, res, next) => {
+    const messages = dbMessages;
+    const availableMessages = []; //temp array
+    messages.forEach(message => {
+        if (message.status == 0) {
+            availableMessages.push(message); //push available messages in temp array
+        }
+    });
+    res.status(200).json({
+        message: 'Available messages loaded',
+        data: availableMessages
     });
 };
 
