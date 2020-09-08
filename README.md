@@ -12,6 +12,8 @@
 - nodemon
 - morgan
 - uuid
+- mocha
+- chai
 
 ## Installation
 
@@ -26,6 +28,10 @@
 - Run the application
     ```shell
     npm start
+    ```
+- Test the application
+    ```shell
+    npm test
     ```
  ---
  **API Endpoint Documentation**
