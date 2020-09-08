@@ -1,15 +1,16 @@
 const dbMessages = require('../models/message');
 
-let id = 0;
+let id = 0; //for value increment to make unique message and producer ID.
 
 //POST : Create message and push in array buffer
+//req contains parameters for the input
 exports.messages_createMessage = (req, res, next) => {
     const messageId = "message" + id;
-    const producerId = "producer" + id; //random producer generated just for logging
+    const producerId = "producer" + id; //producer id generated just for logging
     let status = "";
     let success = false;
     let message = [];
-    const messageSize = Buffer.byteLength(req.body.message, 'utf8');
+    const messageSize = Buffer.byteLength(req.body.message, 'utf8');//get the size of input message string
     console.log(messageSize);
     //Validation for message body.
     if (req.body.message !== undefined && req.body.message !== "" && messageSize < 262144) { //check if message size is greater than 256 kilobytes
