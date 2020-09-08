@@ -1,0 +1,5 @@
+{
+    "env": {
+        "DISPLAY_TIMEOUT": 30000
+    }
+}

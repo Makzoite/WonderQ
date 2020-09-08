@@ -27,11 +27,7 @@ app.use(function (req, res, next) {
 });
 
 //default path for the messages route
-app.use('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Yay its working!!!'
-    });
-});
+app.use('/', messageRoutes);
 
 //handling the invalid request
 app.use((req, res, next) => {
