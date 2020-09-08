@@ -129,7 +129,6 @@ exports.messages_deleteMessage = (req, res, next) => {
 function deleteMessage(messageId, uuid) {
     let success = false;
     dbMessages.forEach((message, index) => {
-        console.log(message.messageID);
         if (message.messageID === messageId && message.uuid === uuid) {//delete message only if uuid is available
             dbMessages.splice(index, 1);
             success = true;
