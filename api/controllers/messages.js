@@ -56,3 +56,36 @@ exports.messages_availableMessages = (req, res, next) => {
     });
 };
 
+//GET: Poll the messages from the WonderQ
+exports.messages_getMessages = (req, res, next) => {
+    const messages = dbMessages;
+    const polledMessages = []; //temp array
+    messages.forEach(message => {
+        if (message.status == 0) {
+            message.status = 1; //update the message status to 1 so that other could not access this message
+            message.uuid = req.cookies.uuid; //Set session specific uuid for each consumer
+            polledMessages.push(message);
+        }
+    });
+    //If the messages is polled again then clear the previos timeout
+    if (timeOut != null) {
+        clearTimeout(timeOut);
+    }
+
+    //Set the timeout to trigger after configurable display timeout to make messages available to other consumers
+    timeOut = setTimeout(() => {
+        messages.forEach(message => {
+            if (message.uuid == req.cookies.uuid) {
+                //reset status of message to 0 and uuid empty after display timeout exceeds
+                message.status = 0; 
+                message.uuid = "";
+            }
+        });
+    }, process.env.DISPLAY_TIMEOUT); 
+
+    res.status(200).json({
+        message: 'Messages polling success',
+        data: polledMessages,
+        timeout: process.env.DISPLAY_TIMEOUT
+    });
+};

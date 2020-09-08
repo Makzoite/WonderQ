@@ -8,4 +8,7 @@ router.post('/', messagesController.messages_createMessage);
 //get all the available messages
 router.get('/messages/available', messagesController.messages_availableMessages);
 
+//poll all the available messages
+router.get('/messages/poll', messagesController.messages_getMessages);
+
 module.exports = router;
